@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>General Cargo Survey OU | Business Support Services</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--color-dark: #061e21;
+--color-primary: #0a2e33;
+--color-accent: #e2e8f0;
+--color-text: #1e293b;
+--color-light: #f8fafc;
+}
+body {
+font-family: 'Inter', sans-serif;
+background-color: var(--color-light);
+color: var(--color-text);
+scroll-behavior: smooth;
+overflow-x: hidden;
+}
+.hero-bg {
+background-color: var(--color-dark);
+background-image: linear-gradient(135deg, #061e21 0%, #0a2e33 100%);
+position: relative;
+}
+.hero-bg::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-image: url('https://images.unsplash.com/photo-1554774853-719586f82d77?auto=format&fit=crop&q=80');
+background-size: cover;
+background-position: center;
+opacity: 0.1;
+z-index: 0;
+}
+.hero-content {
+position: relative;
+z-index: 1;
+}
+.nav-link {
+position: relative;
+transition: color 0.3s ease;
+}
+.nav-link::after {
+content: '';
+position: absolute;
+width: 0;
+height: 2px;
+bottom: -4px;
+left: 0;
+background-color: white;
+transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+width: 100%;
+}
+.glass-card {
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+}
+.fade-up {
+opacity: 0;
+transform: translateY(30px);
+transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.fade-up.visible {
+opacity: 1;
+transform: translateY(0);
+}
+.modal-overlay {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: rgba(0, 0, 0, 0.6);
+backdrop-filter: blur(4px);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000;
+opacity: 0;
+visibility: hidden;
+transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal-overlay.active {
+opacity: 1;
+visibility: visible;
+}
+.modal-content {
+background-color: white;
+border-radius: 1rem;
+padding: 2.5rem;
+width: 100%;
+max-width: 500px;
+transform: translateY(20px) scale(0.95);
+transition: transform 0.3s ease;
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+.modal-overlay.active .modal-content {
+transform: translateY(0) scale(1);
+}
+.btn-primary {
+background-color: white;
+color: var(--color-dark);
+transition: all 0.3s ease;
+font-weight: 600;
+}
+.btn-primary:hover {
+background-color: var(--color-accent);
+transform: translateY(-2px);
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+.btn-submit {
+background-color: var(--color-primary);
+color: white;
+transition: all 0.3s ease;
+}
+.btn-submit:hover {
+background-color: var(--color-dark);
+}
+.input-field {
+width: 100%;
+padding: 0.75rem 1rem;
+border: 1px solid #e2e8f0;
+border-radius: 0.5rem;
+outline: none;
+transition: border-color 0.3s ease, box-shadow 0.3s ease;
+background-color: #f8fafc;
+}
+.input-field:focus {
+border-color: var(--color-primary);
+box-shadow: 0 0 0 3px rgba(10, 46, 51, 0.1);
+background-color: white;
+}
+.process-line {
+position: absolute;
+top: 2rem;
+left: 10%;
+right: 10%;
+height: 2px;
+background-color: #e2e8f0;
+z-index: 0;
+}
+@media (max-width: 768px) {
+.process-line {
+display: none;
+}
+}
+.custom-shape-divider-bottom {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+overflow: hidden;
+line-height: 0;
+transform: rotate(180deg);
+}
+.custom-shape-divider-bottom svg {
+position: relative;
+display: block;
+width: calc(100% + 1.3px);
+height: 50px;
+}
+.custom-shape-divider-bottom .shape-fill {
+fill: #f8fafc;
+}
+</style>
+</head>
+<body>
+
+<nav class="absolute w-full top-0 z-50 py-6">
+<div class="max-w-7xl mx-auto px-6 lg:px-8 flex justify-between items-center">
+<div class="flex items-center gap-2 text-white font-bold text-xl tracking-wide">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+<polyline points="2 17 12 22 22 17"></polyline>
+<polyline points="2 12 12 17 22 12"></polyline>
+</svg>
+General Cargo Survey
+</div>
+<div class="hidden md:flex items-center gap-8 text-white text-sm font-medium">
+<a href="#about" class="nav-link">Meist</a>
+<a href="#services" class="nav-link">Teenused</a>
+<a href="#advantages" class="nav-link">Eelised</a>
+<a href="#process" class="nav-link">Protsess</a>
+</div>
+<button onclick="openModal('contactModal')" class="hidden md:block btn-primary px-6 py-2.5 rounded-full text-sm">
+Võta ühendust
+</button>
+<button class="md:hidden text-white">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<line x1="3" y1="12" x2="21" y2="12"></line>
+<line x1="3" y1="6" x2="21" y2="6"></line>
+<line x1="3" y1="18" x2="21" y2="18"></line>
+</svg>
+</button>
+</div>
+</nav>
+
+<header class="hero-bg pt-40 pb-32 lg:pt-48 lg:pb-40 text-white min-h-[80vh] flex items-center relative">
+<div class="hero-content max-w-7xl mx-auto px-6 lg:px-8 w-full">
+<div class="max-w-3xl">
+<h1 class="text-5xl lg:text-7xl font-bold leading-tight mb-8 tracking-tight fade-up">
+Strateegilised lahendused teie äri kasvuks.
+</h1>
+<p class="text-lg lg:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl fade-up" style="transition-delay: 100ms;">
+Optimeerime teie tarneahela ja äriprotsesse uuenduslike tugiteenuste abil, tagades kõrgeima efektiivsuse ja pikaajalise jätkusuutliku arengu igas turuolukorras.
+</p>
+<div class="fade-up" style="transition-delay: 200ms;">
+<button onclick="openModal('contactModal')" class="btn-primary px-8 py-4 rounded-full text-base flex items-center gap-2 inline-flex">
+Alusta koostööd
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<line x1="5" y1="12" x2="19" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+</div>
+</div>
+</div>
+<div class="custom-shape-divider-bottom">
+<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+<path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
+</svg>
+</div>
+</header>
+
+<section id="about" class="py-24 bg-white">
+<div class="max-w-7xl mx-auto px-6 lg:px-8">
+<div class="flex flex-col lg:flex-row items-start justify-between gap-16">
+<div class="lg:w-1/3 fade-up">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-2 h-2 rounded-full bg-slate-800"></div>
+<span class="text-sm font-semibold tracking-wider uppercase text-slate-500">Meist</span>
+</div>
+<h2 class="text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">Pühendunud tipptasemel äritoe pakkumisele.</h2>
+</div>
+<div class="lg:w-2/3 fade-up" style="transition-delay: 100ms;">
+<p class="text-xl text-slate-600 leading-relaxed mb-8">
+General Cargo Survey OU on pühendunud kõrgeima kvaliteediga äritugiteenuste pakkumisele. Meie meeskond koosneb kogenud spetsialistidest, kes mõistavad põhjalikult kaasaegse logistika ja turu keerukust. Analüüsime teie ettevõtte spetsiifilisi vajadusi, et töötada välja täpseid ja tulemuslikke rätsepalahendusi.
+</p>
+<p class="text-lg text-slate-600 leading-relaxed">
+Meie peamiseks fookuseks on pikaajaliste ja usaldusväärsete partnerlussuhete loomine oma klientidega. Aitame teil enesekindlalt navigeerida ärilistes väljakutsetes, minimeerida operatsiooniriske ja maksimeerida üldist kasumlikkust. Usume kindlalt, et pidev struktuurne innovatsioon ja väga täpne andmeanalüüs on iga kaasaegse ettevõtte püsiva edu aluseks.
+</p>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 pt-12 border-t border-slate-100">
+<div>
+<div class="text-4xl font-bold text-slate-900 mb-2">95%</div>
+<div class="text-sm text-slate-500 leading-snug">Kliendirahulolu terviklike lahendustega</div>
+</div>
+<div>
+<div class="text-4xl font-bold text-slate-900 mb-2">10+</div>
+<div class="text-sm text-slate-500 leading-snug">Aastat kogemust rahvusvahelisel turul</div>
+</div>
+<div>
+<div class="text-4xl font-bold text-slate-900 mb-2">300+</div>
+<div class="text-sm text-slate-500 leading-snug">Edukalt lõpule viidud projekti</div>
+</div>
+<div>
+<div class="text-4xl font-bold text-slate-900 mb-2">24/7</div>
+<div class="text-sm text-slate-500 leading-snug">Pidev tugi ja monitooring</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="services" class="py-24 bg-slate-50 relative">
+<div class="max-w-7xl mx-auto px-6 lg:px-8">
+<div class="text-center max-w-3xl mx-auto mb-20 fade-up">
+<h2 class="text-3xl lg:text-4xl font-bold text-slate-900 mb-6">Meie peamised teenused</h2>
+<p class="text-lg text-slate-600">Pakume laiaulatuslikku valikut professionaalseid teenuseid, mis on loodud spetsiaalselt teie ettevõtte infrastruktuuri ja igapäevaste protsesside toetamiseks.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="bg-white p-10 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow fade-up">
+<div class="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center mb-8 border border-slate-100">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a2e33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="3"></circle>
+<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+</svg>
+</div>
+<h3 class="text-xl font-semibold text-slate-900 mb-4">Äriprotsesside optimeerimine</h3>
+<p class="text-slate-600 leading-relaxed text-sm mb-4">Hindame põhjalikult teie praeguseid töövooge ja tuvastame koheselt kõik esinevad kitsaskohad. Rakendame kaasaegseid ja tõestatud metoodikaid, et muuta teie igapäevane tegevus sujuvamaks ja tunduvalt kulutõhusamaks.</p>
+<p class="text-slate-600 leading-relaxed text-sm">Meie poolt pakutavad lahendused on täielikult skaleeritavad ja kohanduvad sujuvalt teie ettevõtte pideva kasvuga aja jooksul.</p>
+</div>
+<div class="bg-white p-10 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow fade-up" style="transition-delay: 100ms;">
+<div class="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center mb-8 border border-slate-100">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a2e33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+<path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+</svg>
+</div>
+<h3 class="text-xl font-semibold text-slate-900 mb-4">Strateegiline nõustamine</h3>
+<p class="text-slate-600 leading-relaxed text-sm mb-4">Pakume kõrgetasemelisi andmepõhiseid teadmisi, mis aitavad teil juhtkonnana teha alati informeeritud ja kindlaid otsuseid. Meie kogenud eksperdid analüüsivad regulaarselt aktuaalseid turusuundumusi ja konkurentsiolukorda.</p>
+<p class="text-slate-600 leading-relaxed text-sm">Selle tulemusena aitame teil välja töötada selge, jätkusuutliku ja reaalselt elluviidava pikaajalise visiooni tulevikuks.</p>
+</div>
+<div class="bg-white p-10 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow fade-up" style="transition-delay: 200ms;">
+<div class="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center mb-8 border border-slate-100">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a2e33" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+<line x1="8" y1="21" x2="16" y2="21"></line>
+<line x1="12" y1="17" x2="12" y2="21"></line>
+</svg>
+</div>
+<h3 class="text-xl font-semibold text-slate-900 mb-4">Tarneahela halduse tugi</h3>
+<p class="text-slate-600 leading-relaxed text-sm mb-4">Pakume kõrgeimal tasemel spetsialiseeritud tugiteenuseid logistika ja kaubaveo valdkonnas aktiivselt tegutsevatele ettevõtetele. Aitame teadlikult vähendada tarneviivitusi ja optimeerida füüsiliste ressursside jaotust.</p>
+<p class="text-slate-600 leading-relaxed text-sm">Meie meetodid tagavad teie ettevõtte tarneahela maksimaalse läbipaistvuse, turvalisuse ja kulude kokkuhoiu.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="advantages" class="py-24 bg-white relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-6 lg:px-8">
+<div class="flex flex-col lg:flex-row items-center gap-16">
+<div class="lg:w-1/2 fade-up">
+<div class="relative rounded-2xl overflow-hidden aspect-[4/3]">
+<img src="main1.jpg" alt="Meeskonna töö" class="object-cover w-full h-full">
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
+</div>
+</div>
+<div class="lg:w-1/2">
+<div class="flex items-center gap-3 mb-6 fade-up">
+<div class="w-2 h-2 rounded-full bg-slate-800"></div>
+<span class="text-sm font-semibold tracking-wider uppercase text-slate-500">Miks valida meid</span>
+</div>
+<h2 class="text-3xl lg:text-4xl font-bold text-slate-900 mb-10 fade-up">Meie tugevused turul</h2>
+<div class="space-y-10">
+<div class="flex gap-6 fade-up" style="transition-delay: 100ms;">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
+<span class="text-xl font-bold text-slate-800">1</span>
+</div>
+<div>
+<h4 class="text-xl font-semibold text-slate-900 mb-2">Sügav valdkonna tundmine</h4>
+<p class="text-slate-600 leading-relaxed text-sm">Meil on pikaajaline ja mitmekülgne kogemus äritugiteenuste ja globaalse logistika sektoris. See unikaalne teadmistepagas võimaldab meil pakkuda strateegilisi lahendusi, mis on koheselt rakendatavad ja toovad kiireid tulemusi.</p>
+</div>
+</div>
+<div class="flex gap-6 fade-up" style="transition-delay: 200ms;">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
+<span class="text-xl font-bold text-slate-800">2</span>
+</div>
+<div>
+<h4 class="text-xl font-semibold text-slate-900 mb-2">Individuaalne lähenemine</h4>
+<p class="text-slate-600 leading-relaxed text-sm">Me ei kasuta kunagi universaalseid, kõigile sobivaid malle. Iga loodud strateegia on hoolikalt ja detailselt kohandatud vastavalt teie ettevõtte täpsetele unikaalsetele eesmärkidele ja aktuaalsetele väljakutsetele.</p>
+</div>
+</div>
+<div class="flex gap-6 fade-up" style="transition-delay: 300ms;">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
+<span class="text-xl font-bold text-slate-800">3</span>
+</div>
+<div>
+<h4 class="text-xl font-semibold text-slate-900 mb-2">Mõõdetavad tulemused</h4>
+<p class="text-slate-600 leading-relaxed text-sm">Meie igapäevase töö peamine eesmärk on tuua teile reaalset, numbrites ja graafikutes selgelt väljendatavat finantsilist kasu. Jälgime pidevalt strateegiate progressi ja kohandame oma tegevust operatiivselt vastavalt vajadusele.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="process" class="py-24 bg-slate-900 text-white relative">
+<div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+<div class="text-center max-w-3xl mx-auto mb-20 fade-up">
+<div class="flex items-center justify-center gap-3 mb-6">
+<div class="w-2 h-2 rounded-full bg-white/50"></div>
+<span class="text-sm font-semibold tracking-wider uppercase text-slate-400">Kuidas me töötame</span>
+<div class="w-2 h-2 rounded-full bg-white/50"></div>
+</div>
+<h2 class="text-3xl lg:text-4xl font-bold mb-6">Meie selge tööprotsess</h2>
+<p class="text-slate-400 text-lg">Struktureeritud ja läbipaistev lähenemine igale projektile, et tagada oodatud tulemuste õigeaikne saavutamine.</p>
+</div>
+<div class="relative">
+<div class="process-line bg-slate-800"></div>
+<div class="grid md:grid-cols-3 gap-12 relative z-10">
+<div class="text-center fade-up">
+<div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center mb-6 border-4 border-slate-900 shadow-xl relative z-10">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="11" cy="11" r="8"></circle>
+<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+</div>
+<h4 class="text-xl font-semibold mb-4">1. Esialgne analüüs</h4>
+<p class="text-slate-400 text-sm leading-relaxed">Kaardistame põhjalikult teie ettevõtte hetkeolukorra ja defineerime koos peamised eesmärgid. Kogume kõik vajalikud andmed ja hindame realistlikult olemasolevaid ressursse projekti jaoks.</p>
+</div>
+<div class="text-center fade-up" style="transition-delay: 100ms;">
+<div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center mb-6 border-4 border-slate-900 shadow-xl relative z-10">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+</svg>
+</div>
+<h4 class="text-xl font-semibold mb-4">2. Strateegia loomine</h4>
+<p class="text-slate-400 text-sm leading-relaxed">Loome äärmiselt detailse tegevuskava, mis sisaldab konkreetseid teostatavaid samme ja ajakava. Kaasame kogu protsessi teie meeskonna, et tagada lahenduste täielik sobivus organisatsiooniga.</p>
+</div>
+<div class="text-center fade-up" style="transition-delay: 200ms;">
+<div class="w-16 h-16 mx-auto bg-slate-800 rounded-full flex items-center justify-center mb-6 border-4 border-slate-900 shadow-xl relative z-10">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22 4 12 14.01 9 11.01"></polyline>
+</svg>
+</div>
+<h4 class="text-xl font-semibold mb-4">3. Rakendamine</h4>
+<p class="text-slate-400 text-sm leading-relaxed">Viime koostatud strateegia praktiliselt ellu ja jälgime selle mõju reaalajas andmete põhjal. Teeme vajadusel koheseid ja kiireid kohandusi, et tagada lahenduse maksimaalne ja püsiv efektiivsus.</p>
+</div>
+</div>
+</div>
+<div class="mt-20 text-center fade-up" style="transition-delay: 300ms;">
+<button onclick="openModal('contactModal')" class="bg-white text-slate-900 px-8 py-4 rounded-full text-sm font-semibold hover:bg-slate-100 transition-colors">
+Alusta oma projekti täna
+</button>
+</div>
+</div>
+</section>
+
+<footer class="bg-[#041214] pt-16 pb-8 border-t border-slate-800">
+<div class="max-w-7xl mx-auto px-6 lg:px-8">
+<div class="grid md:grid-cols-2 gap-12 mb-16">
+<div>
+<div class="flex items-center gap-2 text-white font-bold text-2xl tracking-wide mb-6">
+<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+<polyline points="2 17 12 22 22 17"></polyline>
+<polyline points="2 12 12 17 22 12"></polyline>
+</svg>
+General Cargo Survey
+</div>
+<p class="text-slate-400 max-w-sm text-sm leading-relaxed">
+Teie usaldusväärne partner äriprotsesside optimeerimisel ja tarneahela strateegilisel haldamisel.
+</p>
+</div>
+<div class="flex flex-col md:items-end justify-center">
+<h4 class="text-white font-semibold mb-6 text-lg">Kontaktandmed</h4>
+<div class="space-y-4 text-slate-400 text-sm">
+<div class="flex items-start gap-3 justify-end flex-row-reverse md:flex-row">
+<svg class="mt-1 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+<circle cx="12" cy="10" r="3"></circle>
+</svg>
+<span class="md:text-right">Veeru tn 24-28<br>Maardu, 74113 Estonia</span>
+</div>
+<div class="flex items-center gap-3 justify-end flex-row-reverse md:flex-row mt-4">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+<polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+<a href="mailto:headmail@generalcargosurvey.org" class="hover:text-white transition-colors">headmail@generalcargosurvey.org</a>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-slate-800/50 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500">
+<p>&copy; 2026 General Cargo Survey OU. Kõik õigused kaitstud.</p>
+<div class="flex gap-4 mt-4 md:mt-0">
+<a href="#" class="hover:text-white transition-colors">Privaatsuspoliitika</a>
+<a href="#" class="hover:text-white transition-colors">Kasutustingimused</a>
+</div>
+</div>
+</div>
+</footer>
+
+<div id="contactModal" class="modal-overlay">
+<div class="modal-content relative">
+<button onclick="closeModal('contactModal')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<line x1="18" y1="6" x2="6" y2="18"></line>
+<line x1="6" y1="6" x2="18" y2="18"></line>
+</svg>
+</button>
+<h3 class="text-2xl font-bold text-slate-900 mb-2">Võtke meiega ühendust</h3>
+<p class="text-slate-500 text-sm mb-8">Täitke allolev vorm ja meie meeskond võtab teiega peagi ühendust, et arutada koostöövõimalusi.</p>
+<form id="contactForm" onsubmit="handleFormSubmit(event)">
+<div class="space-y-5">
+<div>
+<label for="name" class="block text-sm font-medium text-slate-700 mb-1">Teie Nimi</label>
+<input type="text" id="name" required class="input-field" placeholder="Jaan Tamm">
+</div>
+<div>
+<label for="email" class="block text-sm font-medium text-slate-700 mb-1">E-posti aadress</label>
+<input type="email" id="email" required class="input-field" placeholder="nimi@ettevote.ee">
+</div>
+<div>
+<label for="message" class="block text-sm font-medium text-slate-700 mb-1">Sõnumi sisu</label>
+<textarea id="message" required rows="4" class="input-field resize-none" placeholder="Kuidas saame teid aidata?"></textarea>
+</div>
+<button type="submit" class="btn-submit w-full py-3.5 rounded-lg font-semibold flex justify-center items-center gap-2">
+Saada päring
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<line x1="22" y1="2" x2="11" y2="13"></line>
+<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+</svg>
+</button>
+</div>
+</form>
+</div>
+</div>
+
+<div id="successModal" class="modal-overlay">
+<div class="modal-content text-center py-10 relative">
+<button onclick="closeModal('successModal')" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<line x1="18" y1="6" x2="6" y2="18"></line>
+<line x1="6" y1="6" x2="18" y2="18"></line>
+</svg>
+</button>
+<div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+<polyline points="22 4 12 14.01 9 11.01"></polyline>
+</svg>
+</div>
+<h3 class="text-2xl font-bold text-slate-900 mb-3">Sõnum on saadetud!</h3>
+<p class="text-slate-500 mb-8 max-w-sm mx-auto">Teie päring on edukalt meieni jõudnud. Täname huvi eest, võtame teiega ühendust esimesel võimalusel.</p>
+<button onclick="closeModal('successModal')" class="bg-slate-900 text-white px-8 py-3 rounded-lg font-semibold hover:bg-slate-800 transition-colors">
+Sulge aken
+</button>
+</div>
+</div>
+
+<script>
+function openModal(modalId) {
+document.getElementById(modalId).classList.add('active');
+document.body.style.overflow = 'hidden';
+}
+
+function closeModal(modalId) {
+document.getElementById(modalId).classList.remove('active');
+document.body.style.overflow = '';
+}
+
+function handleFormSubmit(event) {
+event.preventDefault();
+closeModal('contactModal');
+document.getElementById('contactForm').reset();
+setTimeout(() => {
+openModal('successModal');
+}, 300);
+}
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+overlay.addEventListener('click', function(e) {
+if (e.target === this) {
+closeModal(this.id);
+}
+});
+});
+
+document.addEventListener('keydown', function(e) {
+if (e.key === 'Escape') {
+document.querySelectorAll('.modal-overlay.active').forEach(overlay => {
+closeModal(overlay.id);
+});
+}
+});
+
+const observerOptions = {
+root: null,
+rootMargin: '0px',
+threshold: 0.15
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.classList.add('visible');
+observer.unobserve(entry.target);
+}
+});
+}, observerOptions);
+
+document.addEventListener('DOMContentLoaded', () => {
+document.querySelectorAll('.fade-up').forEach(element => {
+observer.observe(element);
+});
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const targetId = this.getAttribute('href');
+if (targetId === '#') return;
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+targetElement.scrollIntoView({
+behavior: 'smooth',
+block: 'start'
+});
+}
+});
+});
+</script>
+</body>
+</html>
